@@ -41,7 +41,12 @@ public class JWTService {
                 .addClaims(claims)
                 .compact();
 
-        return new AuthInfo(jws, applicationUser.getRole());
+        return new AuthInfo(
+                jws,
+                applicationUser.getName(),
+                applicationUser.getEmail(),
+                applicationUser.getRole()
+        );
     }
 
     public Optional<JwtParsedUser> parseToken(String token) {
