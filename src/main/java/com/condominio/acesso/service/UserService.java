@@ -6,10 +6,7 @@ import com.condominio.acesso.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -28,8 +25,8 @@ public class UserService {
     }
 
     @Transactional
-    public void createUser(ApplicationUser user) {
-        userRepository.save(user);
+    public UserDTO createUser(ApplicationUser user) {
+        return new UserDTO(userRepository.save(user));
     }
 
     @Transactional
@@ -42,5 +39,9 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public List<ApplicationUser> findResidableUsers(String name) {
+        return this.userRepository.findResidableUsers(name);
     }
 }

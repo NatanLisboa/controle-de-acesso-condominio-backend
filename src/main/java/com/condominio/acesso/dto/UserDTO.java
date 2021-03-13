@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Data
 public class UserDTO {
+    public Long id;
     public String name;
     @CPF
     public String cpf;
@@ -23,6 +24,7 @@ public class UserDTO {
     public String role;
 
     public UserDTO(ApplicationUser applicationUser){
+        this.id = applicationUser.getId();
         this.name = applicationUser.getName();
         this.cpf = applicationUser.getCpf();
         this.phone = applicationUser.getPhone();

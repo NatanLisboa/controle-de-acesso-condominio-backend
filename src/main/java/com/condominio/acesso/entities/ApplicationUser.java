@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@SQLDelete(sql = "is_active=false")
+@SQLDelete(sql = "UPDATE application_user SET is_active = false WHERE id=?")
 @Where(clause = "is_active=true")
 public class ApplicationUser {
 
@@ -37,6 +37,10 @@ public class ApplicationUser {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
+    private Apartment apartment;
+
     private boolean isActive;
 
     public ApplicationUser(UserDTO userDTO) {
@@ -54,5 +58,10 @@ public class ApplicationUser {
         this.setPhone(userDTO.getPhone());
         this.setEmail(userDTO.getEmail());
         this.setRole(Role.fromString(userDTO.getRole()));
+    }
+
+    @PrePersist
+    public void prePersist(){
+        this.isActive = true;
     }
 }

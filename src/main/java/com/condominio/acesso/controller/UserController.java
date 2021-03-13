@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class UserController {
                 .findAllUser()
                 .stream()
                 .map(user -> new UserDTO(
+                        user.getId(),
                         user.getName(),
                         user.getCpf(),
                         user.getPhone(),
@@ -37,10 +39,26 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/residables")
+    public @ResponseBody List<UserDTO> getAllUsers(@PathParam("name")String name){
+        return this.userService.findResidableUsers(name)
+                .stream()
+                .map(user -> new UserDTO(
+                                user.getId(),
+                                user.getName(),
+                                user.getCpf(),
+                                user.getPhone(),
+                                user.getEmail(),
+                                user.getRole().toString()
+                        )
+                )
+                .collect(Collectors.toList());
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody @Valid UserDTO userDTO){
-        this.userService.createUser(new ApplicationUser(userDTO));
+    public UserDTO createUser(@RequestBody @Valid UserDTO userDTO){
+        return this.userService.createUser(new ApplicationUser(userDTO));
     }
 
     @PutMapping("/{id}")
