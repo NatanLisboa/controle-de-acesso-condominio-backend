@@ -1,5 +1,6 @@
 package com.condominio.acesso.controller;
 
+import com.condominio.acesso.dto.UserApartmentDTO;
 import com.condominio.acesso.dto.UserDTO;
 import com.condominio.acesso.entities.ApplicationUser;
 import com.condominio.acesso.service.UserService;
@@ -36,6 +37,14 @@ public class UserController {
                         user.getRole().toString()
                         )
                 )
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/residents")
+    public @ResponseBody List<UserApartmentDTO> findResidentsByCpf(@PathParam("cpf")String cpf){
+        return this.userService.findResidentsByCPF(cpf)
+                .stream()
+                .map(UserApartmentDTO::new)
                 .collect(Collectors.toList());
     }
 

@@ -44,4 +44,8 @@ public class UserService {
     public List<ApplicationUser> findResidableUsers(String name) {
         return this.userRepository.findResidableUsers(name);
     }
+
+    public List<ApplicationUser> findResidentsByCPF(String cpf) {
+        return this.userRepository.findResidentsByCPF(cpf);
+    }
 }

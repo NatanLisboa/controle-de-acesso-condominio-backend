@@ -19,4 +19,10 @@ public interface UserRepository extends CrudRepository<ApplicationUser, Long> {
             "AND a IS NULL " +
             "AND u.name LIKE %:name%")
     List<ApplicationUser> findResidableUsers(@Param("name")String name);
+
+    @Query("FROM ApplicationUser u " +
+            "JOIN FETCH u.apartment a " +
+            "WHERE u.role='RESIDENT' " +
+            "AND u.cpf LIKE %:cpf%")
+    List<ApplicationUser> findResidentsByCPF(@Param("cpf")String cpf);
 }
