@@ -1,17 +1,35 @@
 plugins {
 	id 'org.springframework.boot' version '2.5.0-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id "org.sonarqube" version "3.1.1"
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'com.condominio'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '8'
+sourceCompatibility = '11'
+
+sonarqube {
+	properties {
+		property 'sonar.host.url', 'http://localhost:9000'
+	}
+}
+
+tasks['sonarqube'].dependsOn test
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+	}
+}
+test.finalizedBy jacocoTestReport
 
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+
 }
 
 repositories {
